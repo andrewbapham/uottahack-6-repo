@@ -12,6 +12,8 @@ def clean_df(df):
     """
     Clean the DataFrame by encoding object columns and standardizing numerical columns.
     """
+    
+    df = df.drop('user_id', axis=1)
     # Encode Object Columns
     encoded_object_columns = pd.get_dummies(df.select_dtypes(include=['object']))
 
@@ -37,12 +39,12 @@ def compute_similarity_matrix(features_matrix):
 
 
 
-def get_similarity_matrix(df, similarity_matrix, user_id):
+def get_top10ids(df, similarity_matrix, user_id):
     """
     Get the top 10 most similar user ids based on a similarity matrix.
     """
     # Get index of the user_id in the dataset
-    user_index = next(index for index, profile in enumerate(df) if df["user_id"] == user_id)
+    user_index = next(index for index, profile in enumerate(df.iterrows()) if profile[1]["user_id"] == user_id)
 
     # Get similarity values for the specified user and sort them
     similar_scores = list(enumerate(similarity_matrix[user_index]))
@@ -52,4 +54,4 @@ def get_similarity_matrix(df, similarity_matrix, user_id):
     top_10_similar_indices = [i for i, score in similar_scores[1:11]]
 
     # Return the user_ids of the top 10 similar profiles
-    return [profiles[i]["user_id"] for i in top_10_similar_indices]
+    return [df.iloc[i]["user_id"] for i in top_10_similar_indices]
