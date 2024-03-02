@@ -1,12 +1,14 @@
-
-import './App.css';
-import Register from './Components/Register/Register';
+import "./App.css";
+import Auth0ProviderWithHistory from "./Components/Auth0Provider";
+import Register from "./Components/Register/Register";
 
 function App() {
   return (
-    <div className="App">
-      <Register/>
-    </div>
+    <Auth0ProviderWithHistory>
+      <div className="App">
+        <Register />
+      </div>
+    </Auth0ProviderWithHistory>
   );
 }
 
